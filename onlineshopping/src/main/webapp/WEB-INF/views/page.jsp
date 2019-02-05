@@ -67,6 +67,12 @@
 			<c:if test="${userClickContact == true}">
 				<%@ include file="contact.jsp"%>
 			</c:if>
+			
+			
+			<!-- Cette page est chargé si et seulement si l'utilisateur clique sur Liste des Produits -->
+			<c:if test="${userClickAllProducts == true or userClickCategoryProducts == true}">
+				<%@ include file="listProducts.jsp"%>
+			</c:if>
 
 		</div>
 		<!-- /.container -->

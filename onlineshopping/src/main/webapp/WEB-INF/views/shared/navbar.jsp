@@ -13,11 +13,17 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li id="about"><a href="${contextRoot}/about">A Propos</a>
+                
+                    <li id="about">
+                	    <a href="${contextRoot}/about">A Propos</a>
                     </li>
-                    <li id="listProducts"><a href="${contextRoot}/listProducts">Voir les Produits</a>
+                   
+                    <li id="contact">
+                    	<a href="${contextRoot}/contact">Nous Contacter</a>
                     </li>
-                    <li id="contact"><a href="${contextRoot}/contact">Nous Contacter</a>
+                    
+                     <li id="listProducts">
+                     	<a href="${contextRoot}/show/all/products">Liste des Produits</a>
                     </li>
                 </ul>
             </div>
