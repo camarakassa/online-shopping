@@ -23,7 +23,7 @@
                     </li>
                     
                      <li id="listProducts">
-                     	<a href="${contextRoot}/show/all/products">Liste des Produits</a>
+                     	<a href="${contextRoot}/show/all/products">Voir les Produits</a>
                     </li>
                 </ul>
             </div>

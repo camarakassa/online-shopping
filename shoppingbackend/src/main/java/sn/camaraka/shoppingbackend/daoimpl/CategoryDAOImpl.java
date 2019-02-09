@@ -1,65 +1,90 @@
 package sn.camaraka.shoppingbackend.daoimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import sn.camaraka.shoppingbackend.dao.CategoryDAO;
 import sn.camaraka.shoppingbackend.dto.Category;
 
 @Repository("categoryDAO")
+@Transactional
 public class CategoryDAOImpl implements CategoryDAO {
 
-	private static List<Category> categories = new ArrayList<>();
-
-	static {
-
-		
-		// Categorie 1
-		Category category = new Category();
-		category.setId(1);
-		category.setName("Ordinamteur");
-		category.setDescription("Description pour les Ordinateur");
-		category.setImageURL("CAT_1.png");
-		categories.add(category);
-
-		// Deuxieme Categorie
-
-		category = new Category();
-		category.setId(2);
-		category.setName("Télévision");
-		category.setDescription("Description pour les télévision");
-		category.setImageURL("CAT_2.png");
-		categories.add(category);
-
-		//  3 Categorie
-		category = new Category();
-
-		category.setId(3);
-		category.setName("Portable");
-		category.setDescription("Description pour les téléphone");
-		category.setImageURL("CAT_3.png");
-		categories.add(category);
-	}
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Override
 	public List<Category> list() {
 
-		return categories;
+		String selectActiveCategory = "FROM Category WHERE active = :active";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveCategory);
+		
+		query.setParameter("active", true);
+		
+		
+		return query.getResultList();
+	}
+
+	/*
+	 * Obtenir une seule catégorie en fonction de l'id
+	 */
+	@Override
+	public Category get(int id) {
+
+		return sessionFactory.getCurrentSession().get(Category.class, Integer.valueOf(id));
 	}
 
 	@Override
-	public Category get(int id) {
-		
-		// On enchaine pour la boucle
-		for(Category category : categories) {
-			
-			if(category.getId() == id) {
-				return category;
-			}
+	public boolean add(Category category) {
+
+		try {
+			// Ajout d'une categorie dans la base de données
+			sessionFactory.getCurrentSession().persist(category);
+
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		return null;
+
+	}
+
+	@Override
+	public boolean update(Category category) {
+		try {
+			// Modification d'une categorie dans la base de données
+			sessionFactory.getCurrentSession().update(category);
+
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delete(Category category) {
+		
+		category.setActive(false);
+		
+		try {
+			// Suppresion d'une categorie dans la base de données
+			sessionFactory.getCurrentSession().update(category);
+
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
